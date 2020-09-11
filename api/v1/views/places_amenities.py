@@ -33,12 +33,12 @@ def delete_amenity_by_place(place_id, amenity_id):
         abort(404)
     place = storage.get(Place, place_id)
     amenity = storage.get(Amenity, amenity_id)
-    if amenity in place.amenities:
-        place.amenities.remove(amenity)
-    else:
+    if amenity not in place.amenities:
         abort(404)
-    storage.save()
-    return jsonify({}), 200
+    else:
+        place.amenities.remove(amenity)
+        storage.save()
+        return jsonify({}), 200
 
 
 @app_views.route('/api/v1/places/<place_id>/amenities/<amenity_id>',
@@ -52,8 +52,8 @@ def link_amenity(place_id, amenity_id):
     place = storage.get(Place, place_id)
     amenity = storage.get(Amenity, amenity_id)
     if amenity in place.amenities:
-        return jsonify(amenity.to_dict()), 200
+        return amenity.to_dict(), 200
     else:
         place.amenities.append(amenity)
         storage.save()
-    return jsonify(amenity.to_dict()), 201
+        return amenity.to_dict(), 201
