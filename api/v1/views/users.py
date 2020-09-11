@@ -35,7 +35,7 @@ def delete_user(user_id):
     """Deletes a User object"""
     user = storage.get('User', user_id)
     if user:
-        user.delete()
+        storage.delete(user)
         storage.save()
         return jsonify({}), 200
     abort(404)
@@ -65,10 +65,12 @@ def update_user(user_id):
     update_obj = request.get_json()
     if not update_obj:
         abort(400, {'Not a JSON'})
-    my_user = storage.get('User', user_id)
+    this_user = storage.get('User', user_id)
     if not this_user:
         abort(404)
+    ignore = ['id', 'created_at', 'updated_at', 'user_id', 'city_id']
     for key, value in update_attr.items():
-        setattr(this_user, key, value)
+        if key not in ignore:
+            setattr(this_user, key, value)
     storage.save()
-    return jsonify(this_user.to_dict())
+    return jsonify(this_user.to_dict()), 200
