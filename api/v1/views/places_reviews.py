@@ -62,6 +62,7 @@ def create_review(place_id):
         abort(404)
     if 'text' not in review_obj:
         abort(400, {'Missing text'})
+    review_obj['place_id'] = place_id
     this_review = Review(**review_obj)
     storage.new(this_review)
     storage.save()
