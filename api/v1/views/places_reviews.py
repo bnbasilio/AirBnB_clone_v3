@@ -80,7 +80,7 @@ def update_review(review_id):
         abort(400, {'Not a JSON'})
     this_review = storage.get(Review, review_id)
     ignore = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
-    for key, value in upd_place.items():
+    for key, value in upd_review.items():
         if key not in ignore:
             setattr(this_review, key, value)
     storage.save()
