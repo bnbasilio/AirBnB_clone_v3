@@ -17,7 +17,7 @@ def all_reviews(place_id):
         abort(404)
 
     all_reviews = []
-    for review in storage.all(Review).values():
+    for review in storage.all('Review').values():
         if place_id == review.to_dict()['place_id']:
             all_reviews.append(review.to_dict())
     return jsonify(all_reviews)
@@ -29,7 +29,7 @@ def get_review(review_id):
     """ retrieves a Review object """
     review = storage.get(Review, review_id)
     if review:
-        return jsonify(review)
+        return jsonify(review.to_dict())
     else:
         abort(404)
 
