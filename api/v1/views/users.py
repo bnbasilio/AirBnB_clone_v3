@@ -68,7 +68,7 @@ def update_user(user_id):
     this_user = storage.get('User', user_id)
     if not this_user:
         abort(404)
-    ignore = ['id', 'created_at', 'updated_at', 'user_id', 'city_id']
+    ignore = ['id', 'created_at', 'updated_at', 'email']
     for key, value in update_attr.items():
         if key not in ignore:
             setattr(this_user, key, value)
