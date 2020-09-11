@@ -17,7 +17,8 @@ def all_amenities(place_id):
         abort(404)
 
     all_amenities = []
-    for amenity in storage.all('Amenity').values():
+    place = storage.get(Place, place_id)
+    for amenity in place.amenities:
         all_amenities.append(amenity.to_dict())
     return jsonify(all_amenities)
 
@@ -32,7 +33,7 @@ def delete_amenity_by_place(place_id, amenity_id):
         abort(404)
     place = storage.get(Place, place_id)
     amenity = storage.get(Amenity, amenity_id)
-    if place and amenity:
+    if amenity in place.amenities:
         place.amenities.remove(amenity)
     else:
         abort(404)
