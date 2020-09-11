@@ -11,7 +11,7 @@ from models.amenity import Amenity
 
 
 @app_views.route('/api/v1/places/<place_id>/amenities', strict_slashes=False)
-def all_amenities(place_id):
+def all_amenities_by_place(place_id):
     """ retrieves all Amenity objects """
     if not storage.get(Place, place_id):
         abort(404)
